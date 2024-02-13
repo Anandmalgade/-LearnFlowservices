@@ -1,0 +1,73 @@
+import java.util.*;
+
+class Employee {
+    private int id;
+    private String name;
+    private double salary;
+
+    public Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+}
+
+class PayrollSystem {
+    private List<Employee> employees;
+
+    public PayrollSystem() {
+        this.employees = new ArrayList<>();
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public void displayAllEmployees() {
+        System.out.println("Employee Details:");
+        for (Employee emp : employees) {
+            System.out.println("ID: " + emp.getId() + ", Name: " + emp.getName() + ", Salary: $" + emp.getSalary());
+        }
+    }
+
+    public double calculateMonthlyPay(Employee employee) {
+        // For simplicity, assume a fixed monthly salary for all employees
+        return employee.getSalary();
+    }
+}
+
+public class EmployeePayrollSystem {
+    public static void main(String[] args) {
+        PayrollSystem payrollSystem = new PayrollSystem();
+
+        // Add employees
+        payrollSystem.addEmployee(new Employee(1, "John Doe", 3000));
+        payrollSystem.addEmployee(new Employee(2, "Jane Smith", 4000));
+        payrollSystem.addEmployee(new Employee(3, "Alice Johnson", 3500));
+
+        // Display all employees
+        payrollSystem.displayAllEmployees();
+
+        // Calculate monthly pay for each employee
+        System.out.println("\nMonthly Pay:");
+        for (Employee emp : payrollSystem.employees) {
+            System.out.println(emp.getName() + ": $" + payrollSystem.calculateMonthlyPay(emp));
+        }
+    }
+}
