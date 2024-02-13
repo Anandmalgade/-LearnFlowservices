@@ -1,0 +1,111 @@
+import java.util.*;
+
+class Movie {
+    private String title;
+    private String director;
+    private int duration;
+    private int availableSeats;
+
+    public Movie(String title, String director, int duration, int availableSeats) {
+        this.title = title;
+        this.director = director;
+        this.duration = duration;
+        this.availableSeats = availableSeats;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(int availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+}
+
+class Theater {
+    private String name;
+    private List<Movie> movies;
+
+    public Theater(String name) {
+        this.name = name;
+        this.movies = new ArrayList<>();
+    }
+
+    public void addMovie(Movie movie) {
+        movies.add(movie);
+    }
+
+    public void displayMovies() {
+        System.out.println("Available movies at " + name + ":");
+        for (Movie movie : movies) {
+            System.out.println(movie.getTitle() + " - " + movie.getDirector() + " - Duration: " + movie.getDuration() + " mins - Available Seats: " + movie.getAvailableSeats());
+        }
+    }
+
+    public Movie findMovie(String title) {
+        for (Movie movie : movies) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+}
+
+class BookingSystem {
+    private Theater theater;
+
+    public BookingSystem(Theater theater) {
+        this.theater = theater;
+    }
+
+    public void bookTicket(String movieTitle, int numSeats) {
+        Movie movie = theater.findMovie(movieTitle);
+        if (movie == null) {
+            System.out.println("Movie not found.");
+            return;
+        }
+
+        if (movie.getAvailableSeats() < numSeats) {
+            System.out.println("Sorry, not enough seats available.");
+            return;
+        }
+
+        movie.setAvailableSeats(movie.getAvailableSeats() - numSeats);
+        System.out.println("Congratulations! You have successfully booked " + numSeats + " seat(s) for the movie: " + movieTitle);
+    }
+}
+
+public class MovieTicketBookingSystem {
+    public static void main(String[] args) {
+        Theater theater = new Theater("Cineplex");
+        theater.addMovie(new Movie("The Matrix", "Lana Wachowski", 150, 100));
+        theater.addMovie(new Movie("Inception", "Christopher Nolan", 160, 80));
+        theater.addMovie(new Movie("Interstellar", "Christopher Nolan", 180, 120));
+
+        BookingSystem bookingSystem = new BookingSystem(theater);
+
+        // Display available movies
+        theater.displayMovies();
+
+        // Example of booking tickets
+        bookingSystem.bookTicket("The Matrix", 2);
+        bookingSystem.bookTicket("Inception", 3);
+        bookingSystem.bookTicket("Interstellar", 5);
+
+        // Display available movies after booking
+        theater.displayMovies();
+    }
+}
