@@ -1,0 +1,104 @@
+import java.util.*;
+// User class to represent bank users
+class User {
+    private String username;
+    private String password;
+    private double balance;
+
+    public User(String username, String password, double balance) {
+        this.username = username;
+        this.password = password;
+        this.balance = balance;
+    }
+
+    // Getters and setters
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+}
+
+// Bank class to manage users and transactions
+class Bank {
+    private List<User> users;
+    private Map<String, User> userMap; // Username -> User
+
+    public Bank() {
+        users = new ArrayList<>();
+        userMap = new HashMap<>();
+    }
+
+    // Add user to the bank
+    public void addUser(User user) {
+        users.add(user);
+        userMap.put(user.getUsername(), user);
+    }
+
+    // Authenticate user
+    public User authenticateUser(String username, String password) {
+        User user = userMap.get(username);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        return null;
+    }
+
+    // Deposit money into user account
+    public void deposit(User user, double amount) {
+        user.setBalance(user.getBalance() + amount);
+        System.out.println("Deposit successful. Current balance: " + user.getBalance());
+    }
+
+    // Withdraw money from user account
+    public void withdraw(User user, double amount) {
+        if (user.getBalance() >= amount) {
+            user.setBalance(user.getBalance() - amount);
+            System.out.println("Withdrawal successful. Current balance: " + user.getBalance());
+        } else {
+            System.out.println("Insufficient funds");
+        }
+    }
+}
+
+public class OnlineBankingSystem {
+    public static void main(String[] args) {
+        // Create bank
+        Bank bank = new Bank();
+
+        // Create users
+        User user1 = new User("user1", "password1", 1000);
+        User user2 = new User("user2", "password2", 500);
+
+        // Add users to bank
+        bank.addUser(user1);
+        bank.addUser(user2);
+
+        // Authenticate users and perform transactions
+        User authenticatedUser = bank.authenticateUser("user1", "password1");
+        if (authenticatedUser != null) {
+            bank.deposit(authenticatedUser, 500);
+            bank.withdraw(authenticatedUser, 200);
+        } else {
+            System.out.println("Invalid username or password");
+        }
+    }
+}
